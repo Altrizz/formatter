@@ -1,0 +1,45 @@
+@import "tailwindcss";
+
+@layer utilities {
+  .a4-page {
+    width: 210mm;
+    min-height: 297mm;
+    background: white;
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    margin: 0 auto;
+  }
+}
+
+@media print {
+  @page {
+    size: A4;
+    margin: 0;
+  }
+  
+  body {
+    background: white;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+  
+  /* Hide UI elements */
+  .no-print {
+    display: none !important;
+  }
+
+  /* Make sure the CV uses the full printable area and drops the shadow */
+  .a4-page {
+    width: 210mm !important;
+    height: auto !important;
+    min-height: 297mm !important;
+    margin: 0 !important;
+    box-shadow: none !important;
+    border: none !important;
+  }
+  
+  /* Prevent page breaks inside important sections */
+  .avoid-break {
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+}
