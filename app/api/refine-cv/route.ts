@@ -24,7 +24,7 @@ ${JSON.stringify(cvData, null, 2)}
     `;
 
     const response = await ai.models.generateContent({
-      model: "gemini-2.5-flash",
+      model: "gemini-2.0-flash",
       contents: prompt,
       config: {
         responseMimeType: "application/json",
@@ -36,8 +36,8 @@ ${JSON.stringify(cvData, null, 2)}
     }
 
     return NextResponse.json(JSON.parse(response.text));
-  } catch (error) {
+  } catch (error: any) {
     console.error('Error refining CV:', error);
-    return NextResponse.json({ error: 'Failed to refine CV' }, { status: 500 });
+    return NextResponse.json({ error: error.message || 'Failed to refine CV' }, { status: 500 });
   }
 }

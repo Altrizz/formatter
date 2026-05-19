@@ -78,7 +78,7 @@ ${notes || 'None'}
     }
 
     const response = await ai.models.generateContent({
-      model: "gemini-2.5-flash",
+      model: "gemini-2.0-flash",
       contents: requestParts,
       config: {
         responseMimeType: "application/json",
@@ -90,8 +90,8 @@ ${notes || 'None'}
     }
 
     return NextResponse.json(JSON.parse(response.text));
-  } catch (error) {
+  } catch (error: any) {
     console.error('Error generating CV:', error);
-    return NextResponse.json({ error: 'Failed to generate CV' }, { status: 500 });
+    return NextResponse.json({ error: error.message || 'Failed to generate CV' }, { status: 500 });
   }
 }

@@ -90,13 +90,16 @@ export default function AppPage() {
         }),
       });
 
-      if (!res.ok) throw new Error("Failed to generate CV");
+      if (!res.ok) {
+        const errorData = await res.json().catch(() => ({}));
+        throw new Error(errorData.error || "Failed to generate CV");
+      }
 
       const data = await res.json();
       setCvData(data);
-    } catch (error) {
+    } catch (error: any) {
       console.error(error);
-      alert("There was an error generating the CV. Please try again.");
+      alert(`There was an error generating the CV: ${error.message}`);
     } finally {
       setIsGenerating(false);
     }
@@ -116,13 +119,16 @@ export default function AppPage() {
         }),
       });
 
-      if (!res.ok) throw new Error("Failed to refine CV");
+      if (!res.ok) {
+        const errorData = await res.json().catch(() => ({}));
+        throw new Error(errorData.error || "Failed to refine CV");
+      }
 
       const data = await res.json();
       setCvData(data);
-    } catch (error) {
+    } catch (error: any) {
        console.error(error);
-       alert("Error refining the CV.");
+       alert(`Error refining the CV: ${error.message}`);
     } finally {
        setIsRefining(false);
     }
