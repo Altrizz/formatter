@@ -1,11 +1,16 @@
 import { GoogleGenAI, Part } from "@google/genai";
 import { NextRequest, NextResponse } from "next/server";
 
-const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
+const apiKey = process.env.GEMINI_API_KEY;
+const ai = new GoogleGenAI({ apiKey: apiKey || 'dummy-key-to-prevent-crash' });
 
 export const maxDuration = 60; // Allow more time for generation
 
 export async function POST(req: NextRequest) {
+  if (!apiKey || apiKey === '') {
+    return NextResponse.json({ error: 'GEMINI_API_KEY environment variable is missing. Please add it to your Vercel project settings.' }, { status: 500 });
+  }
+
   try {
     const body = await req.json();
     const { rawText, fileData, fileMimeType, format, notes, name, title, languages } = body;
